@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romantic Memories</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Dancing Script', cursive;
+      background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      overflow-x: hidden;
+    }
+
+    .photo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 100px;
+      padding: 50px 0;
+      position: relative;
+    }
+
+    .photo {
+      width: 300px;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: all 1s ease;
+      border: 4px solid #f8f;
+      box-shadow: 0 0 20px rgba(255, 192, 203, 0.6);
+      border-radius: 15px;
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+      margin: 0 auto;
+    }
+
+    .photo.left {
+      align-self: flex-start;
+      margin-left: 200px;
+      transform: rotate(-6deg);
+    }
+
+    .photo.right {
+      align-self: flex-end;
+      margin-right: 200px;
+      transform: rotate(6deg);
+    }
+
+    .photo.visible {
+      opacity: 1;
+    }
+
+    .photo::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: url('https://png.pngtree.com/png-clipart/20230420/ourmid/pngtree-beautiful-lily-flowers-watercolor-hand-painted-png-image_6713779.png') no-repeat center center;
+      background-size: contain;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 50, 0.4);
+      z-index: -1;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      margin-top: 50px;
+      font-size: 3em;
+      text-shadow: 2px 2px #ff80df;
+    }
+
+    .feelings-card {
+      max-width: 1000px;
+      height: 600px;
+      margin: 40px auto;
+      background: transparent;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .feelings-card.open .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+    }
+
+    .card-front {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      color: #d81b60;
+      font-weight: bold;
+      border: 2px dashed #ff80ab;
+    }
+
+    .card-back {
+      background: white;
+      transform: rotateY(180deg);
+      padding: 40px;
+    }
+
+    .card-back p {
+      font-size: 1.6em;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    .vinyl-player {
+      display: flex;
+      justify-content: center;
+      margin: 40px auto;
+      cursor: pointer;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 20%, #f48fb1 60%, #ad1457 100%);
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+      position: relative;
+      transition: transform 0.5s ease;
+    }
+
+    .vinyl-player.playing {
+      animation: spin 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(-2deg); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-player::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 45px;
+      height: 45px;
+      background: #000;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    }
+
+    .flowers {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: url('https://png.pngtree.com/png-vector/20220412/ourmid/pngtree-flower-border-clipart-watercolor-romantic-flowers-png-image_4550822.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: -2;
+      opacity: 0.3;
+    }
+
+    .heart {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #ff4081;
+      clip-path: polygon(50% 0%, 0% 35%, 50% 100%, 100% 35%);
+      animation: heartAnimation 1.5s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    .heart1 { top: 30%; left: 20%; animation-delay: 0s; }
+    .heart2 { top: 50%; left: 30%; animation-delay: 0.5s; }
+    .heart3 { top: 40%; left: 60%; animation-delay: 1s; }
+
+    @keyframes heartAnimation {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.5); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.6; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="flowers"></div>
+  <h1>Romantic Memories</h1>
+
+  <div class="vinyl-player" id="vinyl"></div>
+  <audio id="audio" loop>
+    <source src="your-song.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="feelings-card" id="card">
+    <div class="card-inner">
+      <div class="card-front">Нажми, чтобы открыть письмо 💌</div>
+      <div class="card-back">
+        <p>Ты — самый тёплый свет в моей жизни. Каждый миг с тобой — как кадр из самой красивой истории любви. Пусть эта страница всегда напоминает тебе, как много ты для меня значишь ❤️</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-container">
+    <div class="photo left" style="background-image: url('https://source.unsplash.com/300x400/?couple,love');"></div>
+    <div class="photo right" style="background-image: url('https://source.unsplash.com/300x400/?flowers,romantic');"></div>
+    <div class="photo left" style="background-image: url('https://source.unsplash.com/300x400/?sunset,romance');"></div>
+    <div class="photo right" style="background-image: url('https://source.unsplash.com/300x400/?hearts,romantic');"></div>
+    <div class="photo left" style="background-image: url('https://source.unsplash.com/300x400/?gift,love');"></div>
+  </div>
+
+  <div class="heart heart1"></div>
+  <div class="heart heart2"></div>
+  <div class="heart heart3"></div>
+
+  <script>
+    const photos = document.querySelectorAll('.photo');
+    const vinyl = document.getElementById('vinyl');
+    const audio = document.getElementById('audio');
+    const card = document.getElementById('card');
+
+    vinyl.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        vinyl.classList.add('playing');
+      } else {
+        audio.pause();
+        vinyl.classList.remove('playing');
+      }
+    });
+
+    card.addEventListener('click', () => {
+      card.classList.toggle('open');
+    });
+
+    const revealOnScroll = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      photos.forEach(photo => {
+        const photoTop = photo.getBoundingClientRect().top;
+        if (photoTop < triggerBottom) {
+          photo.classList.add('visible');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+</body>
+</html>
